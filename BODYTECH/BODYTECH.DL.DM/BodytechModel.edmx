@@ -1,0 +1,565 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ABR_BODYTECHModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EVENTOS_SISTEMA">
+          <Key>
+            <PropertyRef Name="ID_EVENTO" />
+          </Key>
+          <Property Name="ID_EVENTO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EVENTO_DESCRIPCION" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EVENTO_FECHA" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HISTORIAL_ACTIVIDAD">
+          <Key>
+            <PropertyRef Name="ID_ACTIVIDAD" />
+          </Key>
+          <Property Name="ID_ACTIVIDAD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_CLIENTE" Type="int" Nullable="false" />
+          <Property Name="ID_SEDE" Type="int" Nullable="false" />
+          <Property Name="HORA_ENTRADA" Type="datetime" />
+          <Property Name="HORA_SALIDA" Type="datetime" />
+          <Property Name="ID_TABLETA_ENTRADA" Type="int" />
+          <Property Name="ID_TABLETA_SALIDA" Type="int" />
+          <Property Name="ACTIVIDAD_REALIZADA" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LISTA_BLANCA">
+          <Key>
+            <PropertyRef Name="ID_LISTA" />
+          </Key>
+          <Property Name="ID_LISTA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PERSONA_ID" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PERSONA_DOCUMENTO" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PERSONA_NOMBRE" Type="varchar" MaxLength="152" Nullable="false" />
+          <Property Name="PERSONA_GENERO" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PERSONA_CUMPLE" Type="datetime" Nullable="false" />
+          <Property Name="PRODUCTO_ID" Type="int" Nullable="false" />
+          <Property Name="PRODUCTO_NOMBRE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PRODUCTO_TIPO" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PRODUCTO_CANTIDAD_DISPONIBLE" Type="int" Nullable="false" />
+          <Property Name="PRODUCTO_FECHA_INICIA" Type="datetime" Nullable="false" />
+          <Property Name="PRODUCTO_FECHA_VENCE" Type="datetime" Nullable="false" />
+          <Property Name="PRODUCTO_CATEGORIA_ID" Type="int" Nullable="false" />
+          <Property Name="PRODUCTO_CATEGORIA_NOMBRE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+          <Property Name="ID_SEDE_COMPRA" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MOTIVO">
+          <Key>
+            <PropertyRef Name="ID_MOTIVO" />
+          </Key>
+          <Property Name="ID_MOTIVO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MOTIVO_DESCRIPCION" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SEDE">
+          <Key>
+            <PropertyRef Name="ID_SEDE" />
+          </Key>
+          <Property Name="ID_SEDE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SEDE_NOMBRE" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TABLA_CLIENTE">
+          <Key>
+            <PropertyRef Name="ID_CLIENTE" />
+          </Key>
+          <Property Name="ID_CLIENTE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_LISTA" Type="int" />
+          <Property Name="ID_VISITA" Type="int" />
+        </EntityType>
+        <EntityType Name="TABLETA">
+          <Key>
+            <PropertyRef Name="ID_TABLETA" />
+          </Key>
+          <Property Name="ID_TABLETA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IP_TABLETA" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ACTIVIDAD_TABLETA" Type="bit" Nullable="false" />
+          <Property Name="ESTADO_TABLETA" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VISITAS">
+          <Key>
+            <PropertyRef Name="ID_VISITA" />
+          </Key>
+          <Property Name="ID_VISITA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PERSONA_DOCUMENTO" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PERSONA_NOMBRE" Type="varchar" MaxLength="152" Nullable="false" />
+          <Property Name="PRODUCTO_FECHA_INICIO" Type="date" Nullable="false" />
+          <Property Name="PRODUCTO_FECHA_VENCIMIENTO" Type="date" Nullable="false" />
+          <Property Name="ID_MOTIVO" Type="int" Nullable="false" />
+          <Property Name="DETALLE" Type="varchar" MaxLength="152" />
+          <Property Name="EMPLOYEE_DOCUMENTO" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_HISTORIAL_ACTIVIDAD_SEDE">
+          <End Role="SEDE" Type="Self.SEDE" Multiplicity="1" />
+          <End Role="HISTORIAL_ACTIVIDAD" Type="Self.HISTORIAL_ACTIVIDAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEDE">
+              <PropertyRef Name="ID_SEDE" />
+            </Principal>
+            <Dependent Role="HISTORIAL_ACTIVIDAD">
+              <PropertyRef Name="ID_SEDE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HISTORIAL_ACTIVIDAD_TABLA_CLIENTE">
+          <End Role="TABLA_CLIENTE" Type="Self.TABLA_CLIENTE" Multiplicity="1" />
+          <End Role="HISTORIAL_ACTIVIDAD" Type="Self.HISTORIAL_ACTIVIDAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TABLA_CLIENTE">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Principal>
+            <Dependent Role="HISTORIAL_ACTIVIDAD">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HISTORIAL_ACTIVIDAD_TABLETA">
+          <End Role="TABLETA" Type="Self.TABLETA" Multiplicity="0..1" />
+          <End Role="HISTORIAL_ACTIVIDAD" Type="Self.HISTORIAL_ACTIVIDAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TABLETA">
+              <PropertyRef Name="ID_TABLETA" />
+            </Principal>
+            <Dependent Role="HISTORIAL_ACTIVIDAD">
+              <PropertyRef Name="ID_TABLETA_ENTRADA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HISTORIAL_ACTIVIDAD_TABLETA1">
+          <End Role="TABLETA" Type="Self.TABLETA" Multiplicity="0..1" />
+          <End Role="HISTORIAL_ACTIVIDAD" Type="Self.HISTORIAL_ACTIVIDAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TABLETA">
+              <PropertyRef Name="ID_TABLETA" />
+            </Principal>
+            <Dependent Role="HISTORIAL_ACTIVIDAD">
+              <PropertyRef Name="ID_TABLETA_SALIDA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TABLA_CLIENTE_LISTA_BLANCA">
+          <End Role="LISTA_BLANCA" Type="Self.LISTA_BLANCA" Multiplicity="0..1" />
+          <End Role="TABLA_CLIENTE" Type="Self.TABLA_CLIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LISTA_BLANCA">
+              <PropertyRef Name="ID_LISTA" />
+            </Principal>
+            <Dependent Role="TABLA_CLIENTE">
+              <PropertyRef Name="ID_LISTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TABLA_CLIENTE_VISITAS">
+          <End Role="VISITAS" Type="Self.VISITAS" Multiplicity="0..1" />
+          <End Role="TABLA_CLIENTE" Type="Self.TABLA_CLIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VISITAS">
+              <PropertyRef Name="ID_VISITA" />
+            </Principal>
+            <Dependent Role="TABLA_CLIENTE">
+              <PropertyRef Name="ID_VISITA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VISITAS_MOTIVO">
+          <End Role="MOTIVO" Type="Self.MOTIVO" Multiplicity="1" />
+          <End Role="VISITAS" Type="Self.VISITAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MOTIVO">
+              <PropertyRef Name="ID_MOTIVO" />
+            </Principal>
+            <Dependent Role="VISITAS">
+              <PropertyRef Name="ID_MOTIVO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ABR_BODYTECHModelStoreContainer">
+          <EntitySet Name="EVENTOS_SISTEMA" EntityType="Self.EVENTOS_SISTEMA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HISTORIAL_ACTIVIDAD" EntityType="Self.HISTORIAL_ACTIVIDAD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LISTA_BLANCA" EntityType="Self.LISTA_BLANCA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MOTIVO" EntityType="Self.MOTIVO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEDE" EntityType="Self.SEDE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TABLA_CLIENTE" EntityType="Self.TABLA_CLIENTE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TABLETA" EntityType="Self.TABLETA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VISITAS" EntityType="Self.VISITAS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_HISTORIAL_ACTIVIDAD_SEDE" Association="Self.FK_HISTORIAL_ACTIVIDAD_SEDE">
+            <End Role="SEDE" EntitySet="SEDE" />
+            <End Role="HISTORIAL_ACTIVIDAD" EntitySet="HISTORIAL_ACTIVIDAD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HISTORIAL_ACTIVIDAD_TABLA_CLIENTE" Association="Self.FK_HISTORIAL_ACTIVIDAD_TABLA_CLIENTE">
+            <End Role="TABLA_CLIENTE" EntitySet="TABLA_CLIENTE" />
+            <End Role="HISTORIAL_ACTIVIDAD" EntitySet="HISTORIAL_ACTIVIDAD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HISTORIAL_ACTIVIDAD_TABLETA" Association="Self.FK_HISTORIAL_ACTIVIDAD_TABLETA">
+            <End Role="TABLETA" EntitySet="TABLETA" />
+            <End Role="HISTORIAL_ACTIVIDAD" EntitySet="HISTORIAL_ACTIVIDAD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HISTORIAL_ACTIVIDAD_TABLETA1" Association="Self.FK_HISTORIAL_ACTIVIDAD_TABLETA1">
+            <End Role="TABLETA" EntitySet="TABLETA" />
+            <End Role="HISTORIAL_ACTIVIDAD" EntitySet="HISTORIAL_ACTIVIDAD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TABLA_CLIENTE_LISTA_BLANCA" Association="Self.FK_TABLA_CLIENTE_LISTA_BLANCA">
+            <End Role="LISTA_BLANCA" EntitySet="LISTA_BLANCA" />
+            <End Role="TABLA_CLIENTE" EntitySet="TABLA_CLIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TABLA_CLIENTE_VISITAS" Association="Self.FK_TABLA_CLIENTE_VISITAS">
+            <End Role="VISITAS" EntitySet="VISITAS" />
+            <End Role="TABLA_CLIENTE" EntitySet="TABLA_CLIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VISITAS_MOTIVO" Association="Self.FK_VISITAS_MOTIVO">
+            <End Role="MOTIVO" EntitySet="MOTIVO" />
+            <End Role="VISITAS" EntitySet="VISITAS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ABR_BODYTECHModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BodytechEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EVENTOS_SISTEMA" EntityType="ABR_BODYTECHModel.EVENTOS_SISTEMA" />
+          <EntitySet Name="HISTORIAL_ACTIVIDAD" EntityType="ABR_BODYTECHModel.HISTORIAL_ACTIVIDAD" />
+          <EntitySet Name="LISTA_BLANCA" EntityType="ABR_BODYTECHModel.LISTA_BLANCA" />
+          <EntitySet Name="MOTIVO" EntityType="ABR_BODYTECHModel.MOTIVO" />
+          <EntitySet Name="SEDE" EntityType="ABR_BODYTECHModel.SEDE" />
+          <EntitySet Name="TABLA_CLIENTE" EntityType="ABR_BODYTECHModel.TABLA_CLIENTE" />
+          <EntitySet Name="TABLETA" EntityType="ABR_BODYTECHModel.TABLETA" />
+          <EntitySet Name="VISITAS" EntityType="ABR_BODYTECHModel.VISITAS" />
+          <AssociationSet Name="FK_HISTORIAL_ACTIVIDAD_SEDE" Association="ABR_BODYTECHModel.FK_HISTORIAL_ACTIVIDAD_SEDE">
+            <End Role="SEDE" EntitySet="SEDE" />
+            <End Role="HISTORIAL_ACTIVIDAD" EntitySet="HISTORIAL_ACTIVIDAD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HISTORIAL_ACTIVIDAD_TABLA_CLIENTE" Association="ABR_BODYTECHModel.FK_HISTORIAL_ACTIVIDAD_TABLA_CLIENTE">
+            <End Role="TABLA_CLIENTE" EntitySet="TABLA_CLIENTE" />
+            <End Role="HISTORIAL_ACTIVIDAD" EntitySet="HISTORIAL_ACTIVIDAD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HISTORIAL_ACTIVIDAD_TABLETA" Association="ABR_BODYTECHModel.FK_HISTORIAL_ACTIVIDAD_TABLETA">
+            <End Role="TABLETA" EntitySet="TABLETA" />
+            <End Role="HISTORIAL_ACTIVIDAD" EntitySet="HISTORIAL_ACTIVIDAD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HISTORIAL_ACTIVIDAD_TABLETA1" Association="ABR_BODYTECHModel.FK_HISTORIAL_ACTIVIDAD_TABLETA1">
+            <End Role="TABLETA" EntitySet="TABLETA" />
+            <End Role="HISTORIAL_ACTIVIDAD" EntitySet="HISTORIAL_ACTIVIDAD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TABLA_CLIENTE_LISTA_BLANCA" Association="ABR_BODYTECHModel.FK_TABLA_CLIENTE_LISTA_BLANCA">
+            <End Role="LISTA_BLANCA" EntitySet="LISTA_BLANCA" />
+            <End Role="TABLA_CLIENTE" EntitySet="TABLA_CLIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VISITAS_MOTIVO" Association="ABR_BODYTECHModel.FK_VISITAS_MOTIVO">
+            <End Role="MOTIVO" EntitySet="MOTIVO" />
+            <End Role="VISITAS" EntitySet="VISITAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TABLA_CLIENTE_VISITAS" Association="ABR_BODYTECHModel.FK_TABLA_CLIENTE_VISITAS">
+            <End Role="VISITAS" EntitySet="VISITAS" />
+            <End Role="TABLA_CLIENTE" EntitySet="TABLA_CLIENTE" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="EVENTOS_SISTEMA">
+          <Key>
+            <PropertyRef Name="ID_EVENTO" />
+          </Key>
+          <Property Name="ID_EVENTO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EVENTO_DESCRIPCION" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EVENTO_FECHA" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="HISTORIAL_ACTIVIDAD">
+          <Key>
+            <PropertyRef Name="ID_ACTIVIDAD" />
+          </Key>
+          <Property Name="ID_ACTIVIDAD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_CLIENTE" Type="Int32" Nullable="false" />
+          <Property Name="ID_SEDE" Type="Int32" Nullable="false" />
+          <Property Name="HORA_ENTRADA" Type="DateTime" Precision="3" />
+          <Property Name="HORA_SALIDA" Type="DateTime" Precision="3" />
+          <Property Name="ID_TABLETA_ENTRADA" Type="Int32" />
+          <Property Name="ID_TABLETA_SALIDA" Type="Int32" />
+          <Property Name="ACTIVIDAD_REALIZADA" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="SEDE" Relationship="ABR_BODYTECHModel.FK_HISTORIAL_ACTIVIDAD_SEDE" FromRole="HISTORIAL_ACTIVIDAD" ToRole="SEDE" />
+          <NavigationProperty Name="TABLA_CLIENTE" Relationship="ABR_BODYTECHModel.FK_HISTORIAL_ACTIVIDAD_TABLA_CLIENTE" FromRole="HISTORIAL_ACTIVIDAD" ToRole="TABLA_CLIENTE" />
+          <NavigationProperty Name="TABLETA" Relationship="ABR_BODYTECHModel.FK_HISTORIAL_ACTIVIDAD_TABLETA" FromRole="HISTORIAL_ACTIVIDAD" ToRole="TABLETA" />
+          <NavigationProperty Name="TABLETA1" Relationship="ABR_BODYTECHModel.FK_HISTORIAL_ACTIVIDAD_TABLETA1" FromRole="HISTORIAL_ACTIVIDAD" ToRole="TABLETA" />
+        </EntityType>
+        <EntityType Name="LISTA_BLANCA">
+          <Key>
+            <PropertyRef Name="ID_LISTA" />
+          </Key>
+          <Property Name="ID_LISTA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PERSONA_ID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PERSONA_DOCUMENTO" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PERSONA_NOMBRE" Type="String" Nullable="false" MaxLength="152" FixedLength="false" Unicode="false" />
+          <Property Name="PERSONA_GENERO" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PERSONA_CUMPLE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PRODUCTO_ID" Type="Int32" Nullable="false" />
+          <Property Name="PRODUCTO_NOMBRE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PRODUCTO_TIPO" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PRODUCTO_CANTIDAD_DISPONIBLE" Type="Int32" Nullable="false" />
+          <Property Name="PRODUCTO_FECHA_INICIA" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PRODUCTO_FECHA_VENCE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PRODUCTO_CATEGORIA_ID" Type="Int32" Nullable="false" />
+          <Property Name="PRODUCTO_CATEGORIA_NOMBRE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <Property Name="ID_SEDE_COMPRA" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TABLA_CLIENTE" Relationship="ABR_BODYTECHModel.FK_TABLA_CLIENTE_LISTA_BLANCA" FromRole="LISTA_BLANCA" ToRole="TABLA_CLIENTE" />
+        </EntityType>
+        <EntityType Name="MOTIVO">
+          <Key>
+            <PropertyRef Name="ID_MOTIVO" />
+          </Key>
+          <Property Name="ID_MOTIVO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MOTIVO_DESCRIPCION" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="VISITAS" Relationship="ABR_BODYTECHModel.FK_VISITAS_MOTIVO" FromRole="MOTIVO" ToRole="VISITAS" />
+        </EntityType>
+        <EntityType Name="SEDE">
+          <Key>
+            <PropertyRef Name="ID_SEDE" />
+          </Key>
+          <Property Name="ID_SEDE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SEDE_NOMBRE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="HISTORIAL_ACTIVIDAD" Relationship="ABR_BODYTECHModel.FK_HISTORIAL_ACTIVIDAD_SEDE" FromRole="SEDE" ToRole="HISTORIAL_ACTIVIDAD" />
+        </EntityType>
+        <EntityType Name="TABLA_CLIENTE">
+          <Key>
+            <PropertyRef Name="ID_CLIENTE" />
+          </Key>
+          <Property Name="ID_CLIENTE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_LISTA" Type="Int32" />
+          <Property Name="ID_VISITA" Type="Int32" />
+          <NavigationProperty Name="HISTORIAL_ACTIVIDAD" Relationship="ABR_BODYTECHModel.FK_HISTORIAL_ACTIVIDAD_TABLA_CLIENTE" FromRole="TABLA_CLIENTE" ToRole="HISTORIAL_ACTIVIDAD" />
+          <NavigationProperty Name="LISTA_BLANCA" Relationship="ABR_BODYTECHModel.FK_TABLA_CLIENTE_LISTA_BLANCA" FromRole="TABLA_CLIENTE" ToRole="LISTA_BLANCA" />
+          <NavigationProperty Name="VISITAS" Relationship="ABR_BODYTECHModel.FK_TABLA_CLIENTE_VISITAS" FromRole="TABLA_CLIENTE" ToRole="VISITAS" />
+        </EntityType>
+        <EntityType Name="TABLETA">
+          <Key>
+            <PropertyRef Name="ID_TABLETA" />
+          </Key>
+          <Property Name="ID_TABLETA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IP_TABLETA" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ACTIVIDAD_TABLETA" Type="Boolean" Nullable="false" />
+          <Property Name="ESTADO_TABLETA" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="HISTORIAL_ACTIVIDAD" Relationship="ABR_BODYTECHModel.FK_HISTORIAL_ACTIVIDAD_TABLETA" FromRole="TABLETA" ToRole="HISTORIAL_ACTIVIDAD" />
+          <NavigationProperty Name="HISTORIAL_ACTIVIDAD1" Relationship="ABR_BODYTECHModel.FK_HISTORIAL_ACTIVIDAD_TABLETA1" FromRole="TABLETA" ToRole="HISTORIAL_ACTIVIDAD" />
+        </EntityType>
+        <EntityType Name="VISITAS">
+          <Key>
+            <PropertyRef Name="ID_VISITA" />
+          </Key>
+          <Property Name="ID_VISITA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PERSONA_DOCUMENTO" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PERSONA_NOMBRE" Type="String" Nullable="false" MaxLength="152" FixedLength="false" Unicode="false" />
+          <Property Name="PRODUCTO_FECHA_INICIO" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PRODUCTO_FECHA_VENCIMIENTO" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ID_MOTIVO" Type="Int32" Nullable="false" />
+          <Property Name="DETALLE" Type="String" MaxLength="152" FixedLength="false" Unicode="false" />
+          <Property Name="EMPLOYEE_DOCUMENTO" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MOTIVO" Relationship="ABR_BODYTECHModel.FK_VISITAS_MOTIVO" FromRole="VISITAS" ToRole="MOTIVO" />
+          <NavigationProperty Name="TABLA_CLIENTE" Relationship="ABR_BODYTECHModel.FK_TABLA_CLIENTE_VISITAS" FromRole="VISITAS" ToRole="TABLA_CLIENTE" />
+        </EntityType>
+        <Association Name="FK_HISTORIAL_ACTIVIDAD_SEDE">
+          <End Type="ABR_BODYTECHModel.SEDE" Role="SEDE" Multiplicity="1" />
+          <End Type="ABR_BODYTECHModel.HISTORIAL_ACTIVIDAD" Role="HISTORIAL_ACTIVIDAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEDE">
+              <PropertyRef Name="ID_SEDE" />
+            </Principal>
+            <Dependent Role="HISTORIAL_ACTIVIDAD">
+              <PropertyRef Name="ID_SEDE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HISTORIAL_ACTIVIDAD_TABLA_CLIENTE">
+          <End Type="ABR_BODYTECHModel.TABLA_CLIENTE" Role="TABLA_CLIENTE" Multiplicity="1" />
+          <End Type="ABR_BODYTECHModel.HISTORIAL_ACTIVIDAD" Role="HISTORIAL_ACTIVIDAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TABLA_CLIENTE">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Principal>
+            <Dependent Role="HISTORIAL_ACTIVIDAD">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HISTORIAL_ACTIVIDAD_TABLETA">
+          <End Type="ABR_BODYTECHModel.TABLETA" Role="TABLETA" Multiplicity="0..1" />
+          <End Type="ABR_BODYTECHModel.HISTORIAL_ACTIVIDAD" Role="HISTORIAL_ACTIVIDAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TABLETA">
+              <PropertyRef Name="ID_TABLETA" />
+            </Principal>
+            <Dependent Role="HISTORIAL_ACTIVIDAD">
+              <PropertyRef Name="ID_TABLETA_ENTRADA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HISTORIAL_ACTIVIDAD_TABLETA1">
+          <End Type="ABR_BODYTECHModel.TABLETA" Role="TABLETA" Multiplicity="0..1" />
+          <End Type="ABR_BODYTECHModel.HISTORIAL_ACTIVIDAD" Role="HISTORIAL_ACTIVIDAD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TABLETA">
+              <PropertyRef Name="ID_TABLETA" />
+            </Principal>
+            <Dependent Role="HISTORIAL_ACTIVIDAD">
+              <PropertyRef Name="ID_TABLETA_SALIDA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TABLA_CLIENTE_LISTA_BLANCA">
+          <End Type="ABR_BODYTECHModel.LISTA_BLANCA" Role="LISTA_BLANCA" Multiplicity="0..1" />
+          <End Type="ABR_BODYTECHModel.TABLA_CLIENTE" Role="TABLA_CLIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LISTA_BLANCA">
+              <PropertyRef Name="ID_LISTA" />
+            </Principal>
+            <Dependent Role="TABLA_CLIENTE">
+              <PropertyRef Name="ID_LISTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VISITAS_MOTIVO">
+          <End Type="ABR_BODYTECHModel.MOTIVO" Role="MOTIVO" Multiplicity="1" />
+          <End Type="ABR_BODYTECHModel.VISITAS" Role="VISITAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MOTIVO">
+              <PropertyRef Name="ID_MOTIVO" />
+            </Principal>
+            <Dependent Role="VISITAS">
+              <PropertyRef Name="ID_MOTIVO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TABLA_CLIENTE_VISITAS">
+          <End Type="ABR_BODYTECHModel.VISITAS" Role="VISITAS" Multiplicity="0..1" />
+          <End Type="ABR_BODYTECHModel.TABLA_CLIENTE" Role="TABLA_CLIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VISITAS">
+              <PropertyRef Name="ID_VISITA" />
+            </Principal>
+            <Dependent Role="TABLA_CLIENTE">
+              <PropertyRef Name="ID_VISITA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ABR_BODYTECHModelStoreContainer" CdmEntityContainer="BodytechEntities">
+          <EntitySetMapping Name="EVENTOS_SISTEMA">
+            <EntityTypeMapping TypeName="ABR_BODYTECHModel.EVENTOS_SISTEMA">
+              <MappingFragment StoreEntitySet="EVENTOS_SISTEMA">
+                <ScalarProperty Name="EVENTO_FECHA" ColumnName="EVENTO_FECHA" />
+                <ScalarProperty Name="EVENTO_DESCRIPCION" ColumnName="EVENTO_DESCRIPCION" />
+                <ScalarProperty Name="ID_EVENTO" ColumnName="ID_EVENTO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HISTORIAL_ACTIVIDAD">
+            <EntityTypeMapping TypeName="ABR_BODYTECHModel.HISTORIAL_ACTIVIDAD">
+              <MappingFragment StoreEntitySet="HISTORIAL_ACTIVIDAD">
+                <ScalarProperty Name="ACTIVIDAD_REALIZADA" ColumnName="ACTIVIDAD_REALIZADA" />
+                <ScalarProperty Name="ID_TABLETA_SALIDA" ColumnName="ID_TABLETA_SALIDA" />
+                <ScalarProperty Name="ID_TABLETA_ENTRADA" ColumnName="ID_TABLETA_ENTRADA" />
+                <ScalarProperty Name="HORA_SALIDA" ColumnName="HORA_SALIDA" />
+                <ScalarProperty Name="HORA_ENTRADA" ColumnName="HORA_ENTRADA" />
+                <ScalarProperty Name="ID_SEDE" ColumnName="ID_SEDE" />
+                <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+                <ScalarProperty Name="ID_ACTIVIDAD" ColumnName="ID_ACTIVIDAD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LISTA_BLANCA">
+            <EntityTypeMapping TypeName="ABR_BODYTECHModel.LISTA_BLANCA">
+              <MappingFragment StoreEntitySet="LISTA_BLANCA">
+                <ScalarProperty Name="ID_SEDE_COMPRA" ColumnName="ID_SEDE_COMPRA" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="PRODUCTO_CATEGORIA_NOMBRE" ColumnName="PRODUCTO_CATEGORIA_NOMBRE" />
+                <ScalarProperty Name="PRODUCTO_CATEGORIA_ID" ColumnName="PRODUCTO_CATEGORIA_ID" />
+                <ScalarProperty Name="PRODUCTO_FECHA_VENCE" ColumnName="PRODUCTO_FECHA_VENCE" />
+                <ScalarProperty Name="PRODUCTO_FECHA_INICIA" ColumnName="PRODUCTO_FECHA_INICIA" />
+                <ScalarProperty Name="PRODUCTO_CANTIDAD_DISPONIBLE" ColumnName="PRODUCTO_CANTIDAD_DISPONIBLE" />
+                <ScalarProperty Name="PRODUCTO_TIPO" ColumnName="PRODUCTO_TIPO" />
+                <ScalarProperty Name="PRODUCTO_NOMBRE" ColumnName="PRODUCTO_NOMBRE" />
+                <ScalarProperty Name="PRODUCTO_ID" ColumnName="PRODUCTO_ID" />
+                <ScalarProperty Name="PERSONA_CUMPLE" ColumnName="PERSONA_CUMPLE" />
+                <ScalarProperty Name="PERSONA_GENERO" ColumnName="PERSONA_GENERO" />
+                <ScalarProperty Name="PERSONA_NOMBRE" ColumnName="PERSONA_NOMBRE" />
+                <ScalarProperty Name="PERSONA_DOCUMENTO" ColumnName="PERSONA_DOCUMENTO" />
+                <ScalarProperty Name="PERSONA_ID" ColumnName="PERSONA_ID" />
+                <ScalarProperty Name="ID_LISTA" ColumnName="ID_LISTA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MOTIVO">
+            <EntityTypeMapping TypeName="ABR_BODYTECHModel.MOTIVO">
+              <MappingFragment StoreEntitySet="MOTIVO">
+                <ScalarProperty Name="MOTIVO_DESCRIPCION" ColumnName="MOTIVO_DESCRIPCION" />
+                <ScalarProperty Name="ID_MOTIVO" ColumnName="ID_MOTIVO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEDE">
+            <EntityTypeMapping TypeName="ABR_BODYTECHModel.SEDE">
+              <MappingFragment StoreEntitySet="SEDE">
+                <ScalarProperty Name="SEDE_NOMBRE" ColumnName="SEDE_NOMBRE" />
+                <ScalarProperty Name="ID_SEDE" ColumnName="ID_SEDE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TABLA_CLIENTE">
+            <EntityTypeMapping TypeName="ABR_BODYTECHModel.TABLA_CLIENTE">
+              <MappingFragment StoreEntitySet="TABLA_CLIENTE">
+                <ScalarProperty Name="ID_VISITA" ColumnName="ID_VISITA" />
+                <ScalarProperty Name="ID_LISTA" ColumnName="ID_LISTA" />
+                <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TABLETA">
+            <EntityTypeMapping TypeName="ABR_BODYTECHModel.TABLETA">
+              <MappingFragment StoreEntitySet="TABLETA">
+                <ScalarProperty Name="ESTADO_TABLETA" ColumnName="ESTADO_TABLETA" />
+                <ScalarProperty Name="ACTIVIDAD_TABLETA" ColumnName="ACTIVIDAD_TABLETA" />
+                <ScalarProperty Name="IP_TABLETA" ColumnName="IP_TABLETA" />
+                <ScalarProperty Name="ID_TABLETA" ColumnName="ID_TABLETA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VISITAS">
+            <EntityTypeMapping TypeName="ABR_BODYTECHModel.VISITAS">
+              <MappingFragment StoreEntitySet="VISITAS">
+                <ScalarProperty Name="EMPLOYEE_DOCUMENTO" ColumnName="EMPLOYEE_DOCUMENTO" />
+                <ScalarProperty Name="DETALLE" ColumnName="DETALLE" />
+                <ScalarProperty Name="ID_MOTIVO" ColumnName="ID_MOTIVO" />
+                <ScalarProperty Name="PRODUCTO_FECHA_VENCIMIENTO" ColumnName="PRODUCTO_FECHA_VENCIMIENTO" />
+                <ScalarProperty Name="PRODUCTO_FECHA_INICIO" ColumnName="PRODUCTO_FECHA_INICIO" />
+                <ScalarProperty Name="PERSONA_NOMBRE" ColumnName="PERSONA_NOMBRE" />
+                <ScalarProperty Name="PERSONA_DOCUMENTO" ColumnName="PERSONA_DOCUMENTO" />
+                <ScalarProperty Name="ID_VISITA" ColumnName="ID_VISITA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

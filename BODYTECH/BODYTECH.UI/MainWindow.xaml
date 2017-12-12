@@ -1,0 +1,710 @@
+﻿<Controls:MetroWindow x:Class="BODYTECH.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BODYTECH.UI"
+        mc:Ignorable="d" x:Name="Principal"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        WindowStyle="None" WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="800" Width="1280"
+        IsTabStop="True"
+        Icon="pack://application:,,,/assets/img/Logo_Oficial_ABR.ico"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com" ResizeMode="NoResize"
+        WindowState="Maximized" Loaded="Principal_Loaded" Closed="Principal_Closed">
+
+    <Window.Resources>
+        <Style x:Key="buttonBorder" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate  TargetType="Button">
+                        <Grid>
+                            <Border Name="ButtonBorder" CornerRadius="10" Background="#ff8000" BorderThickness="5" BorderBrush="White">
+                                <ContentPresenter/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#40FF00"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <TabControl x:Name="tabGENERAL">
+
+            <TabItem x:Name="tabPrincipal" Visibility="Collapsed">
+                <DockPanel Background="#FF404040">
+                    <Grid>
+                        <Image Source="assets/img/BodytechP.jpg" Opacity="0.8" Stretch="Fill" />
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="4*"/>
+                                <RowDefinition Height="2*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="btnAFILIADO" Grid.Column="0" Margin="50,30" Opacity="0.9" Background="#ff8000" Style="{StaticResource buttonBorder}" Click="btnAFILIADO_Click">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1.2*"/>
+                                            <RowDefinition Height="2*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="1" Text="AFILIADO" TextAlignment="Center" FontWeight="Bold" FontSize="100"/>
+                                    </Grid>
+                                </Button>
+
+                                <Button x:Name="btnVISITA" Grid.Column="1" Margin="50,30" Opacity="0.9" Background="#ff8000" Style="{StaticResource buttonBorder}" Click="btnVISITA_Click">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1.2*"/>
+                                            <RowDefinition Height="2*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="1" Text="VISITA" TextAlignment="Center" FontWeight="Bold" FontSize="100"/>
+                                    </Grid>
+                                </Button>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="openLogg" Grid.Column="1" Margin="0,0,0,100"  Opacity="0"/>
+                            </Grid>
+                        </Grid>
+
+                        <Controls:Flyout Name="loggin" Position="Top" Header="Iniciar Sesión" Background="#ff9900" Margin="170,0,170,10" Visibility="Hidden">
+                            <Grid Background="#303030">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="2.5*"/>
+                                    <RowDefinition Height="10*"/>
+                                </Grid.RowDefinitions>
+
+                                <Viewbox Grid.Column="1" Grid.Row="1" Margin="15">
+                                    <TextBox x:Name="txtuserBoxLogg" Controls:TextBoxHelper.Watermark="usuario" FontSize="30" Width="400" />
+                                </Viewbox>
+                                <Viewbox Grid.Column="1" Grid.Row="2"  Margin="15">
+                                    <PasswordBox x:Name="txtpassBoxLogg" Controls:TextBoxHelper.Watermark="contraseña" FontSize="30" PasswordChar="●" Width="400" />
+                                </Viewbox>
+
+                                <Grid Grid.Row="3" Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Viewbox Grid.Column="0" Margin="30,15,10,15">
+                                        <Button x:Name="ingresarLogg" Style="{StaticResource AccentedSquareButtonStyle}" Content="Ingresar" FontSize="23" Width="150"/>
+                                    </Viewbox>
+                                    <Viewbox Grid.Column="1" Margin="10,15,30,15">
+                                        <Button x:Name="cancelarLogg" Style="{StaticResource AccentedSquareButtonStyle}" Content="Cancelar" FontSize="23" Width="150"/>
+                                    </Viewbox>
+                                </Grid>
+                            </Grid>
+                        </Controls:Flyout>
+
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+            <!-- 0 Principal -->
+
+            <TabItem x:Name="tabAfiliado" Visibility="Collapsed">
+                <DockPanel x:Name="panelVerificacion" Background="#FF404040">
+                    <Grid x:Name="gridPrincipal1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1.5*"/>
+                                <RowDefinition Height="0.3*"/>
+                                <RowDefinition Height="5*"/>
+                            </Grid.RowDefinitions>
+                            <Image x:Name="imagelogoPrincipal" Source="assets/img/identifiacion.png" Margin="10" Grid.Row="0" Stretch="Fill"/>
+                            <Image x:Name="imagerayaPrincipal" Source="assets/img/raya blanca tableta.png" Margin="10" Grid.Row="1" Stretch="Fill"/>
+                            <Viewbox Grid.Row="2" Margin="0,0,10,10" Height="232" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="244">
+                                <Polygon Grid.Row="2" Points="0,250 250,0, 250,250" Fill="#FFFF8000" />
+                            </Viewbox>
+                            <Viewbox Margin="0,0,10,10" Grid.Row="2" Height="160" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="164">
+                                <Image x:Name="regresarPrincipalAfiliado" Source="assets/img/back4.png"  Stretch="Fill" MouseLeftButtonDown="regresarPrincipalAfiliado_MouseLeftButtonDown"/>
+                            </Viewbox>
+
+
+                            <Grid Grid.Row="2" Margin="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="5*"/>
+                                    <RowDefinition Height="0.2*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock x:Name="txtPrinc" Margin="10" TextAlignment="Center" Grid.ColumnSpan="3" FontSize="55" Foreground="Wheat" Text="POSICIONE SU DEDO EN EL SENSOR" FontWeight="Bold"/>
+                                <Rectangle x:Name="ConnecctionServer" Fill="Gray" Stroke="Black" Grid.Row="1" Grid.Column="1" Margin="0,9"/>
+                                <Image x:Name="gifPrincipal" gif:ImageBehavior.AnimatedSource="assets/img/sensor.gif" Grid.Column="1" Margin="10.5,20" Grid.Row="1" Stretch="Fill" gif:ImageBehavior.AutoStart="True"/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+            <!-- 1 Afiliado -->
+
+            <TabItem x:Name="tabVisita" Visibility="Collapsed">
+                <DockPanel x:Name="panelPrincipalInvitados" Background="#FF404040">
+                    <Grid x:Name="gridVisitas">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="0.3*"/>
+                            <RowDefinition Height="5*"/>
+                        </Grid.RowDefinitions>
+                        <Image Source="assets/img/identifiacion.png" Margin="10" Grid.Row="0" Stretch="Fill"/>
+                        <Image Source="assets/img/raya blanca tableta.png" Margin="10" Grid.Row="1" Stretch="Fill"/>
+                        <Viewbox x:Name="BACK2" Grid.Row="2" Margin="0,0,10,10"  Height="245" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="240">
+                            <Polygon x:Name="poligBack" Grid.Row="2" Points="0,250 250,0, 250,250" Fill="#FFFF8000" />
+                        </Viewbox>
+                        <Viewbox Margin="0,0,10,10" Grid.Row="2" Height="160" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="164">
+                            <Image x:Name="regresarPrincipalVisita" Source="assets/img/back4.png"  Stretch="Fill" MouseLeftButtonDown="regresarPrincipalVisita_MouseLeftButtonDown"/>
+
+                        </Viewbox>
+
+                        <Grid Grid.Row="3" Margin="10" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="5*"/>
+                                <RowDefinition Height="0.2*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.2*"/>
+                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="3" Source="assets/img/ISO-01.png" Grid.RowSpan="2" Margin="0,0,61,142" />
+                            <TextBox x:Name="txtInvitadosDNI" Margin="20,0" Grid.Column="1" FontSize="80" TextAlignment="Center" FontFamily="Helvética" IsReadOnly="True"/>
+
+                            <DockPanel x:Name="panelnumericoVisitas" Grid.Column="1" Margin="10" Grid.Row="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10*"/>
+                                        <ColumnDefinition Width="10*"/>
+                                        <ColumnDefinition Width="10*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button x:Name="btnnum1I"  Grid.Column="0" Grid.Row="0" Margin="5" Background="Gray" Foreground="White" Click="btnnum1I_Click">
+                                        <Grid>
+                                            <TextBlock Text="1" FontSize="70"/>
+                                        </Grid>
+                                    </Button>
+                                    <Button x:Name="btnnum2I" Grid.Column="1" Grid.Row="0" Margin="5" Background="Gray" Foreground="White" Click="btnnum2I_Click">
+                                        <Grid>
+                                            <TextBlock Text="2" FontSize="70"/>
+                                        </Grid>
+                                    </Button>
+                                    <Button x:Name="btnnum3I" Grid.Column="2" Grid.Row="0" Margin="5" Background="Gray" Foreground="White" Click="btnnum3I_Click">
+                                        <Grid>
+                                            <TextBlock Text="3" FontSize="70"/>
+                                        </Grid>
+                                    </Button>
+                                    <Button x:Name="btnnum4I" Grid.Column="0" Grid.Row="1" Margin="5" Background="Gray" Foreground="White" Click="btnnum4I_Click">
+                                        <Grid>
+                                            <TextBlock Text="4" FontSize="70"/>
+                                        </Grid>
+                                    </Button>
+                                    <Button x:Name="btnnum5I" Grid.Column="1" Grid.Row="1" Margin="5" Background="Gray" Foreground="White" Click="btnnum5I_Click">
+                                        <Grid>
+                                            <TextBlock Text="5" FontSize="70"/>
+                                        </Grid>
+                                    </Button>
+                                    <Button x:Name="btnnum6I" Grid.Column="2" Grid.Row="1" Margin="5" Background="Gray" Foreground="White" Click="btnnum6I_Click">
+                                        <Grid>
+                                            <TextBlock Text="6" FontSize="70"/>
+                                        </Grid>
+                                    </Button>
+                                    <Button x:Name="btnnum7I" Grid.Column="0" Grid.Row="2" Margin="5" Background="Gray" Foreground="White" Click="btnnum7I_Click">
+                                        <Grid>
+                                            <TextBlock Text="7" FontSize="70"/>
+                                        </Grid>
+                                    </Button>
+                                    <Button x:Name="btnnum8I" Grid.Column="1" Grid.Row="2" Margin="5" Background="Gray" Foreground="White" Click="btnnum8I_Click">
+                                        <Grid>
+                                            <TextBlock Text="8" FontSize="70"/>
+                                        </Grid>
+                                    </Button>
+                                    <Button x:Name="btnnum9I" Grid.Column="2" Grid.Row="2" Margin="5" Background="Gray" Foreground="White" Click="btnnum9I_Click">
+                                        <Grid>
+                                            <TextBlock Text="9" FontSize="70"/>
+                                        </Grid>
+                                    </Button>
+                                    <Button x:Name="btnnum0In" Grid.Column="1" Grid.Row="3" Margin="5" Background="Gray" Foreground="White" Click="btnnum0In_Click">
+                                        <Grid>
+                                            <TextBlock Text="0" FontSize="70"/>
+                                        </Grid>
+                                    </Button>
+                                    <Button x:Name="btnIngresarVisita" Margin="5" Grid.Column="2" Grid.Row="3" Background="#40FF00" Click="btnIngresarVisita_Click">
+                                        <Image Source="assets/img/ok3.png" />
+                                    </Button>
+                                    <Button x:Name="btnCancelar" Grid.Column="0" Grid.Row="3" Margin="5" Background="#FFF90000" Click="btnCancelar_Click" MouseRightButtonDown="btnCancelar_MouseRightButtonDown">
+                                        <Image Source="assets/img/close2.png" />
+                                    </Button>
+                                </Grid>
+                            </DockPanel>
+
+                        </Grid>
+
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+            <!-- 2 Visita -->
+
+            <TabItem x:Name="tabCumpleanio" Visibility="Collapsed">
+                <DockPanel x:Name="panelCumpleaños" Background="#ff404040">
+                    <Grid>
+                        <DockPanel Background="White" Opacity="0.4">
+                            <Image gif:ImageBehavior.AnimatedSource="assets/img/globoCumple2.gif" Stretch="Fill"/>
+                        </DockPanel>
+
+                        <DockPanel Margin="0,150,0,150" Background="#FF404040" Opacity="0.95">
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="7*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="7.5*"/>
+                                    <ColumnDefinition Width="0.5*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="1" Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="14*"/>
+                                        <RowDefinition Height="9*"/>
+                                        <RowDefinition Height="16*"/>
+                                    </Grid.RowDefinitions>
+                                    <Viewbox Grid.Row="0">
+                                        <TextBlock x:Name="txtbbdt1" FontSize="100" TextAlignment="Center" Foreground="#ff8000" FontFamily="Segoe UI Black" Text="BODYTECH"/>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="1">
+                                        <TextBlock x:Name="txtbbdt2" FontSize="60" TextAlignment="Center" Foreground="#ff8000" FontFamily="Segoe UI Black" Text="TE DESEA"/>
+                                    </Viewbox>
+                                    <Viewbox Grid.Row="2">
+                                        <TextBlock x:Name="txtbbdt3"  FontSize="105" TextAlignment="Center" Foreground="#ff8000" FontWeight="Bold" FontFamily="Lucida Calligraphy" Text="¡Feliz Cumpleaños!"/>
+                                    </Viewbox>
+                                </Grid>
+                            </Grid>
+                        </DockPanel>
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+            <!-- 3 Cumpleaños -->
+
+            <TabItem x:Name="tabOpcionEmpleado" Visibility="Collapsed">
+                <DockPanel x:Name="panelOpcionEnoTr" Background="#FF404040">
+                    <Grid>
+                        <Image  Source="assets/img/fondo.jpg" Stretch="Fill"/>
+
+
+                        <Button x:Name="btnIngresarEntrenar" Margin="50,280,670,280" Opacity="0.95" Background="#ff8000" Style="{StaticResource buttonBorder}" Click="btnIngresarEntrenar_Click">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.5*"/>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="0.5*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="1" Text="ENTRENAR" TextAlignment="Center" FontWeight="Bold" FontSize="100"/>
+                            </Grid>
+                        </Button>
+
+                        <Button x:Name="btnIngresarTrabajar" Margin="670,280,50,280" Opacity="0.95" Background="#ff8000" Style="{StaticResource buttonBorder}" Click="btnIngresarTrabajar_Click">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.5*"/>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="0.5*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="1" Text="TRABAJAR" TextAlignment="Center" FontWeight="Bold" FontSize="100"/>
+                            </Grid>
+                        </Button>
+
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+            <!-- 4 Opciones -->
+
+            <TabItem x:Name="tabBienvenido" Visibility="Collapsed">
+                <DockPanel x:Name="panelBienvenido" Background="#FF404040">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="0.3*"/>
+                            <RowDefinition Height="5*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="0.1*"/>
+                                <ColumnDefinition Width="6*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.1*"/>
+                                    <RowDefinition Height="2.5*"/>
+                                    <RowDefinition Height="0.1*"/>
+                                    <RowDefinition Height="3.5*"/>
+                                    <RowDefinition Height="0.3*"/>
+                                    <RowDefinition Height="1.8*"/>
+                                    <RowDefinition Height="1.5*"/>
+                                    <RowDefinition Height="0.3*"/>
+                                    <RowDefinition Height="1.8*"/>
+                                    <RowDefinition Height="1.5*"/>
+                                    <RowDefinition Height="1.5*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="BienvenidoTxt" Grid.Row="1" Text="¡BIENVENIDO!" Foreground="Wheat" FontSize="65" FontWeight="Bold"  TextAlignment="Center"/>
+                                <TextBlock x:Name="nombreComple" Grid.Row="3" Text="NOMBRES" Foreground="#ff8000" FontSize="45"  TextAlignment="Center" FontFamily="Segoe UI Semibold" Margin="0,60,0,0"/>
+                                <TextBlock x:Name="txtPeriodo" Grid.Row="6" Text="Periodo"  FontSize="40" Foreground="Wheat"  TextAlignment="Left" Margin="80,0,520,0" FontWeight="Bold"/>
+                                <TextBlock x:Name="PeriodoFecha" Grid.Row="6" Text="Fecha Inicio - Fecha Fin" FontSize="40" Foreground="White" TextAlignment="Right" Margin="242,0,20,0"/>
+                                <TextBlock x:Name="txtMembresia" Grid.Row="8" Text="Tipo de Membresía"  FontSize="40" Foreground="Wheat"  TextAlignment="Left" Margin="80,11,310,0" FontWeight="Bold"/>
+                                <TextBlock x:Name="tipoMembresia" Grid.Row="8" Text="Tipo" FontSize="40" Foreground="White" TextAlignment="Right" Margin="452,11,20,0"/>
+                            </Grid>
+                            <Image x:Name="imageUserBienvenido" Grid.Column="0"  Margin="20,10,10,40" gif:ImageBehavior.AnimatedSource="assets/img/pase.gif" gif:ImageBehavior.AutoStart="True"/>
+                        </Grid>
+                        <Image x:Name="imagelogoBienvenido" Source="assets/img/Bodytech.svg.png" Margin="10" Grid.Row="0" />
+                        <Image x:Name="imagerayaBienvenido" Source="assets/img/raya blanca tableta.png" Grid.Row="1" Margin="10,0" />
+
+
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+            <!-- 5 Bienvenido -->
+
+            <TabItem x:Name="tabConfiguracion" Visibility="Collapsed">
+                <DockPanel x:Name="panelConfiguracion" Background="#FF404040">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="10*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="5*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btnCerrarConfiguracion" Grid.Column="1" Margin="10,15" Style="{DynamicResource MetroCircleButtonStyle}" Padding="-1">
+                                <Image Source="assets/img/Previous.png" Stretch="Fill" Opacity="0.8" />
+                            </Button>
+                            <TextBlock Text="Configuración" Grid.Column="2" TextAlignment="Left" FontFamily="Segoe UI Light" FontSize="80" Margin="0,0,0,0" Foreground="#ff9900"/>
+                            <Button x:Name="reestartWindow" Grid.Column="3" Margin="10" Content="REINICIAR" FontSize="50"/>
+                            <Button x:Name="closeWindow" Grid.Column="4" Margin="10" Content="CERRAR" FontSize="50" />
+
+                        </Grid>
+
+                        <Grid Grid.Row="1" Margin="60,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="2*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Tipo de Identificación" TextAlignment="Left" FontFamily="Segoe UI Light" FontSize="30" Margin="80,30,150,120" Foreground="#ff9900"/>
+                                <ComboBox x:Name="cbxTipoIdentificacion" Grid.Row="0" Grid.Column="0" FontFamily="Segoe UI Light" FontSize="30" Margin="80,80,150,70">
+                                    <ComboBoxItem x:Name="cbxItemTI1" Content="Normal"/>
+                                    <ComboBoxItem x:Name="cbxItemTI2" Content="Pusada"/>
+                                </ComboBox>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="IP del Servidor" TextAlignment="Left" FontFamily="Segoe UI Light" FontSize="30" Margin="80,30,150,120" Foreground="#ff9900"/>
+                                <TextBox x:Name="txtIPServidor" Grid.Row="1" Grid.Column="0"  FontFamily="Segoe UI Light" FontSize="30" Margin="80,80,150,70" Controls:TextBoxHelper.Watermark="Ej. 192.168.1.2"/>
+
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="Tipo de Tableta" TextAlignment="Left" FontFamily="Segoe UI Light" FontSize="30" Margin="80,30,150,120" Foreground="#ff9900"/>
+                                <ComboBox x:Name="cbxTipoTableta" Grid.Row="0" Grid.Column="1" FontFamily="Segoe UI Light" FontSize="30" Margin="80,80,150,70">
+                                    <ComboBoxItem x:Name="cbxItemTPSalida" Content="Salida"/>
+                                    <ComboBoxItem x:Name="cbxItemTPEntrada" Content="Entrada"/>
+                                </ComboBox>
+
+                                <Grid Grid.Column="1" Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="4*"/>
+                                        <RowDefinition Height="2*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="IP de la Tableta" TextAlignment="Left" FontFamily="Segoe UI Light" FontSize="30" Margin="80,0,0,90" Foreground="#ff9900"/>
+                                    <TextBox x:Name="txtIPTableta" FontFamily="Segoe UI Light" FontSize="30" Margin="80,80,150,0" Controls:TextBoxHelper.Watermark="Ej. 192.168.1.2"/>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="1.4*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnActualizarIPTableta" Grid.Column="1" FontFamily="Segoe UI Light" FontSize="25" Margin="10,10,0,0" Content="Actualizar"/>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10*"/>
+                                    <ColumnDefinition Width="2.5*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Conexión a la Base de Datos" TextAlignment="Left" FontFamily="Segoe UI Light" FontSize="30" Margin="80,20,400,130" Foreground="#ff9900"/>
+                                <TextBlock Text="TRA" TextAlignment="Left" FontFamily="Segoe UI Light" FontSize="30" Margin="746,20,110,130" Foreground="#ff9900"/>
+                                <TextBlock Text="TDB" TextAlignment="Left" FontFamily="Segoe UI Light" FontSize="30" Margin="846,20,10,130" Foreground="#ff9900"/>
+                                <TextBox x:Name="txtconnectionString" Margin="80,70,211,10" FontSize="30" TextWrapping="Wrap" Controls:TextBoxHelper.Watermark="Ejemplo: Data Source=192.168.205.80\sqlexpress ..."/>
+                                <Button x:Name="btnGuardarConfiguracion" Grid.Column="1" Margin="10,70,10,10" FontSize="30" FontFamily="Segoe UI Light" Content="Guardar"/>
+                                <TextBox x:Name="txttimeBack" Margin="746,70,110,70" FontFamily="Segoe UI Light" FontSize="30" TextAlignment="Center"/>
+                                <TextBox x:Name="txttimeRestart" Margin="846,70,10,70" FontFamily="Segoe UI Light" FontSize="30" TextAlignment="Center"/>
+                            </Grid>
+                        </Grid>
+
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+            <!-- 6 Opciones -->
+
+            <TabItem x:Name="tabCumpleanio2" Visibility="Collapsed">
+                <DockPanel x:Name="panelCumpleaños2" Background="#ff404040">
+                    <Grid>
+                        <DockPanel Background="White" Opacity="0.4">
+                            <Image gif:ImageBehavior.AnimatedSource="assets/img/globoCumple2.gif" Stretch="Fill"/>
+                        </DockPanel>
+
+                        <DockPanel Margin="0,150,0,150" Background="#FF404040" Opacity="0.95">
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="7*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="7.5*"/>
+                                    <ColumnDefinition Width="0.5*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="1" Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="14*"/>
+                                        <RowDefinition Height="2*"/>
+                                        <RowDefinition Height="16*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock x:Name="txtnombreCumpleaniero" FontSize="135" TextAlignment="Center" Foreground="#ff8000" FontFamily="Segoe UI Black" Text="Daniel," />
+                                    <Viewbox Grid.Row="2">
+                                        <TextBlock  FontSize="105" TextAlignment="Center" Foreground="#ff8000" FontWeight="Bold" FontFamily="Lucida Calligraphy" Text="¡Feliz Cumpleaños!"/>
+                                    </Viewbox>
+                                </Grid>
+                            </Grid>
+                        </DockPanel>
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+            <!-- 7 Cumpleanio2-->
+
+        </TabControl>
+
+        <DockPanel x:Name="panelOpaco" Background="#FF454545" Opacity="0.6" Visibility="Hidden"/>
+        <DockPanel x:Name="pnlAfiliacionVencida" Margin="0,250" Background="#FF202020" Visibility="Hidden">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="1" Stretch="Fill" Margin="10,7" Source="assets/img/raya blanca.png"/>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="1" Margin="0,40,0,30">
+                        <TextBlock Foreground="#ff8000" FontSize="70" TextAlignment="Center" Text="¡SU AFILIACIÓN HA CADUCADO!" FontFamily="Segoe UI Semibold" FontWeight="Bold"/>
+                    </Viewbox>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="1" Margin="0,0, 0, 30">
+                        <TextBlock Foreground="White" FontSize="50" TextAlignment="Center" Text="Acérquese a counter para poder renovarla" FontFamily="Segoe UI Light" />
+                    </Viewbox>
+                </Grid>
+            </Grid>
+        </DockPanel>
+        <DockPanel x:Name="pnlfaltaData" Margin="0,250" Background="#FF202020" Visibility="Hidden">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="1" Stretch="Fill" Margin="10,7" Source="assets/img/raya blanca.png"/>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="1" Margin="0,40,0,30">
+                        <TextBlock Foreground="#ff8000" FontSize="70" TextAlignment="Center" Text="DIGITE SU NÚMERO DE DOCUMENTO" FontFamily="Segoe UI Semibold" FontWeight="Bold"/>
+                    </Viewbox>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="1" Margin="0,0, 0, 30">
+                        <TextBlock Foreground="White" FontSize="50" TextAlignment="Center" Text="No se encontró ningún número de documento para identificarlo" FontFamily="Segoe UI Light" />
+                    </Viewbox>
+                </Grid>
+            </Grid>
+        </DockPanel>
+        <DockPanel x:Name="pnlnoIdentificado" Margin="0,250" Background="#FF202020" Visibility="Hidden">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="1" Stretch="Fill" Margin="10,7" Source="assets/img/raya blanca.png"/>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="1" Margin="0,40,0,30">
+                        <TextBlock Foreground="#ff8000" FontSize="70" TextAlignment="Center" Text="CÓDIGO NO REGISTRADO" FontFamily="Segoe UI Semibold" FontWeight="Bold"/>
+                    </Viewbox>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="1" Margin="0,0, 0, 30">
+                        <TextBlock Foreground="White" FontSize="50" TextAlignment="Center" Text="Asegúrese de haber ingresado correctamente su número de identificación" FontFamily="Segoe UI Light" />
+                    </Viewbox>
+                </Grid>
+            </Grid>
+        </DockPanel>
+        <DockPanel x:Name="pnlactividadInusual" Margin="0,250" Background="#FF202020" Visibility="Hidden">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="1" Stretch="Fill" Margin="10,7" Source="assets/img/raya blanca.png"/>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="1" Margin="0,40,0,30">
+                        <TextBlock Foreground="#ff8000" FontSize="70" TextAlignment="Center" Text="¡ACTIVIDAD INUSUAL!" FontFamily="Segoe UI Semibold" FontWeight="Bold"/>
+                    </Viewbox>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="1" Margin="0,0, 0, 30">
+                        <TextBlock Foreground="White" FontSize="50" TextAlignment="Center" Text="Acérquese a counter para mayor información" FontFamily="Segoe UI Light"/>
+                    </Viewbox>
+                </Grid>
+            </Grid>
+        </DockPanel>
+        <DockPanel x:Name="pnlinvitacionVencida" Margin="0,250" Background="#FF202020" Visibility="Hidden">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="1" Stretch="Fill" Margin="10,7" Source="assets/img/raya blanca.png"/>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="1" Margin="0,40,0,30">
+                        <TextBlock Foreground="#ff8000" FontSize="70" TextAlignment="Center" Text="ACCESO NO AUTORIZADO" FontFamily="Segoe UI Semibold" FontWeight="Bold"/>
+                    </Viewbox>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="1" Margin="0,0, 0, 30">
+                        <TextBlock Foreground="White" FontSize="50" TextAlignment="Center" Text="Acérquese a counter para renovar su acceso" FontFamily="Segoe UI Light" />
+                    </Viewbox>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </Grid>
+
+</Controls:MetroWindow>
