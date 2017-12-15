@@ -26,7 +26,7 @@ namespace BODYTECH.UI
         HistorialActividadBC historialBC = new HistorialActividadBC();
         HelpersBC helperBC = new HelpersBC();
 
-        public Int32 _historialid { get; set; }
+        public Int32? _historialid { get; set; }
 
         public enum TypeModo { ingresoMiembro, ingresoVisita }
         public TypeModo opcionEntrar { get; set; }
@@ -43,6 +43,11 @@ namespace BODYTECH.UI
 
         public Boolean tabletaEntrada { get; set; } = true; // CAMBIAR ESTO PARA 
         public Int32 tabletaid { get; set; } = 1;
+        public String ipServidor { get; set; } = "192.168.205.80";
+        public Int32 timeback { get; set; } = 7;
+
+        public Boolean flag { get; set; }
+        public String free { get; set; } = "78789899";
 
 
         public MainWindow()
@@ -53,12 +58,29 @@ namespace BODYTECH.UI
 
         private void Principal_Loaded(object sender, RoutedEventArgs e)
         {
-            String ipServidor = "192.168.1.3";
+            Boolean tabentrada;
+            if (Properties.Settings.Default.tabletaEntrada)
+            {
+                tabentrada = true;
+                cbxTipoTableta.SelectedIndex = 1;
+            }
+            else
+            {
+                tabentrada = false;
+                cbxTipoTableta.SelectedIndex = 0;
+            }
+            txtIPServidor.Text = Properties.Settings.Default.ipServidor;
+            txttimeBack.Text = Properties.Settings.Default.timeBack.ToString();
+
+
+            tabletaEntrada = tabentrada;
+            ipServidor = Properties.Settings.Default.ipServidor;
+            timeback = Properties.Settings.Default.timeBack;
 
             bioplugin.tabletaEntrada = tabletaEntrada;
             bioplugin.axBioPlugInActX.SetServerInfo(ipServidor, 1200);
 
-            _actividadInvitado.Interval = new TimeSpan(0, 0, 7);
+            _actividadInvitado.Interval = new TimeSpan(0, 0, timeback);
             _actividadInvitado.Tick += (s, a) =>
             {
                 tabGENERAL.SelectedIndex = 0;
@@ -67,7 +89,7 @@ namespace BODYTECH.UI
             };
             
 
-            _actividadAfiliado.Interval = new TimeSpan(0, 0, 7);
+            _actividadAfiliado.Interval = new TimeSpan(0, 0, timeback);
             _actividadAfiliado.Tick += (s, a) =>
             {
                 tabGENERAL.SelectedIndex = 0;
@@ -97,13 +119,16 @@ namespace BODYTECH.UI
 
             arduino.spArduino.DataReceived += delegate
             {
+                
                 if(arduino.Rx == "OK")
                 {
                     Dispatcher.Invoke(() =>
                     {
                         //CODIGO JUNTO CON EL ARDUINO CUANDO EL MOLINETE GIRA
-
-                        completarActividad(_historialid);
+                        if(!flag)
+                        {
+                            completarActividad(_historialid.Value);
+                        }
                     });
                 }
                 else if(arduino.Rx == "YA")
@@ -111,8 +136,8 @@ namespace BODYTECH.UI
                     Dispatcher.Invoke(() =>
                     {
                         //CODIGO JUNTO CON EL ARDUINO CUANDO EL MOLINETE NO HA GIRADO
-
-
+                        _historialid = null;
+                        flag = false;
                     });
                 }
             };
@@ -120,6 +145,7 @@ namespace BODYTECH.UI
             bioplugin.axBioPlugInActX.OnIdentify += delegate
             {
                 opcionEntrar = TypeModo.ingresoMiembro;
+                flag = false;
                 switch (bioplugin.mensajeSalida)
                 {
                     case BioPlugIn.MensajeSalida.NoIdentificado:
@@ -216,7 +242,7 @@ namespace BODYTECH.UI
             Dispatcher.Invoke(() => { _regresarInicio.Start(); });
 
             //COMPLETA HISTORIAL // MOMENTANEO
-            completarActividad(_historialid);
+            //completarActividad(_historialid.Value);
 
             arduino.spArduino.Write("1");
         }
@@ -261,13 +287,17 @@ namespace BODYTECH.UI
             tabGENERAL.SelectedIndex = 5;
             // TIEMPO PARA REGRESAR AL INICIO
             Dispatcher.Invoke(() => { _regresarInicio.Start(); });
-
-
+            
 
             //COMPLETA HISTORIAL // MOMENTANEO
-            completarActividad(_historialid);
+            //if(!flag)
+            //{
+            //    completarActividad(_historialid.Value);
+            //}
 
             arduino.spArduino.Write("1");
+
+            //Console.WriteLine(flag);
         }
 
 
@@ -428,59 +458,80 @@ namespace BODYTECH.UI
             }
             else
             {
-                VISITAS visita = usuarioBC.getVisita(txtInvitadosDNI.Text);
-
-                if(visita==null)
+                if(txtInvitadosDNI.Text == free)
                 {
-                    mensajeSalida = MensajeAlerta.NoIdentificadoVisita;
-                    mostrarAlerta(opcionEntrar, mensajeSalida);
+                    Dispatcher.Invoke(() => { _actividadInvitado.Stop(); });
+                    BienvenidoTxt.Text = "Adelante";
+                    nombreComple.Text = "Undefined";
+                    PeriodoFecha.Text = " 15/12/2017 - 15/12/2020";
+                    tipoMembresia.Visibility = Visibility.Hidden;
+                    txtMembresia.Visibility = Visibility.Hidden;
+                    txtInvitadosDNI.Clear();
+                    tabGENERAL.SelectedIndex = 5;
+                    flag = true;
+
+                    Dispatcher.Invoke(() => { _regresarInicio.Start(); });
+                    arduino.spArduino.Write("1");
+                    //Console.WriteLine(flag);
                 }
                 else
                 {
-                    var diasRestantes = DateTime.Today - visita.PRODUCTO_FECHA_VENCIMIENTO;
-                    if (diasRestantes.Days > 0)
+                    flag = false;
+                    VISITAS visita = usuarioBC.getVisita(txtInvitadosDNI.Text);
+
+                    if (visita == null)
                     {
-                        mensajeSalida = MensajeAlerta.InvitacionVencida;
+                        mensajeSalida = MensajeAlerta.NoIdentificadoVisita;
                         mostrarAlerta(opcionEntrar, mensajeSalida);
                     }
                     else
                     {
-                        Int32 clienteid = visita.TABLA_CLIENTE.Select(x => x.ID_CLIENTE).FirstOrDefault();
-                        HISTORIAL_ACTIVIDAD historial = historialBC.getHistorialCliente(clienteid);
-                        if (historial == null || (historial.HORA_ENTRADA != null && historial.HORA_SALIDA != null))
+                        var diasRestantes = DateTime.Today - visita.PRODUCTO_FECHA_VENCIMIENTO;
+                        if (diasRestantes.Days > 0)
                         {
-                            historialBC.nuevoHistorial(clienteid, 1);
-                            historial = historialBC.getHistorialCliente(clienteid);
+                            mensajeSalida = MensajeAlerta.InvitacionVencida;
+                            mostrarAlerta(opcionEntrar, mensajeSalida);
                         }
+                        else
+                        {
+                            Int32 clienteid = visita.TABLA_CLIENTE.Select(x => x.ID_CLIENTE).FirstOrDefault();
+                            HISTORIAL_ACTIVIDAD historial = historialBC.getHistorialCliente(clienteid);
+                            if (historial == null || (historial.HORA_ENTRADA != null && historial.HORA_SALIDA != null))
+                            {
+                                historialBC.nuevoHistorial(clienteid, 1);
+                                historial = historialBC.getHistorialCliente(clienteid);
+                            }
 
-                        if(historial.HORA_ENTRADA == null && historial.HORA_SALIDA == null) //ESTOY AFUERA Y QUIERO ENTRAR
-                        {
-                            if(tabletaEntrada) //TABLETA ENTRADA // ENTRA
+                            if (historial.HORA_ENTRADA == null && historial.HORA_SALIDA == null) //ESTOY AFUERA Y QUIERO ENTRAR
                             {
-                                String titulo = "BIENVENIDO";
-                                pantallaBienvenido(opcionEntrar, visita, titulo);
+                                if (tabletaEntrada) //TABLETA ENTRADA // ENTRA
+                                {
+                                    String titulo = "BIENVENIDO";
+                                    pantallaBienvenido(opcionEntrar, visita, titulo);
+                                }
+                                else //TABLETA SALIDA // NO PUEDE ENTRAR
+                                {
+                                    mensajeSalida = MensajeAlerta.ActividadInusual;
+                                    mostrarAlerta(opcionEntrar, mensajeSalida);
+                                }
                             }
-                            else //TABLETA SALIDA // NO PUEDE ENTRAR
+                            else //ESTOY DENTRO Y QUIERO ENTRAR
                             {
-                                mensajeSalida = MensajeAlerta.ActividadInusual;
-                                mostrarAlerta(opcionEntrar, mensajeSalida);
-                            }
-                        }
-                        else //ESTOY DENTRO Y QUIERO ENTRAR
-                        {
-                            if (!tabletaEntrada) //TABLETA SALIDA // PUEDE SALIR
-                            {
-                                String titulo = "HASTA PRONTO";
-                                pantallaBienvenido(opcionEntrar, visita, titulo);
-                            }
-                            else //TABLETA ENTRADA // NO PUEDE SALIR
-                            {
-                                mensajeSalida = MensajeAlerta.ActividadInusual;
-                                mostrarAlerta(opcionEntrar, mensajeSalida);
+                                if (!tabletaEntrada) //TABLETA SALIDA // PUEDE SALIR
+                                {
+                                    String titulo = "HASTA PRONTO";
+                                    pantallaBienvenido(opcionEntrar, visita, titulo);
+                                }
+                                else //TABLETA ENTRADA // NO PUEDE SALIR
+                                {
+                                    mensajeSalida = MensajeAlerta.ActividadInusual;
+                                    mostrarAlerta(opcionEntrar, mensajeSalida);
+                                }
                             }
                         }
                     }
                 }
+
             }
         }
 
@@ -496,15 +547,65 @@ namespace BODYTECH.UI
         private void btnIngresarTrabajar_Click(object sender, RoutedEventArgs e)
         {
             _historialid = bioplugin.historialid;
-            historialBC.entraTrabajar(_historialid);
+            historialBC.entraTrabajar(_historialid.Value);
 
             pantallaBienvenido(TypeModo.ingresoMiembro, bioplugin.afiliado);
         }
 
         #endregion
+        
+        #region CONFIGURACION_TABLETA
 
-        #region OPCION_ADMINISTRADOR
+        private void btnGuardarConfiguracion_Click(object sender, RoutedEventArgs e)
+        {
+            Boolean tabenntrada;
+            if (cbxTipoTableta.SelectedIndex == 1) tabenntrada = true;
+            else tabenntrada = false;
 
+            Properties.Settings.Default.ipServidor = txtIPServidor.Text;
+            Properties.Settings.Default.tabletaEntrada = tabenntrada;
+            Properties.Settings.Default.timeBack = Convert.ToInt32(txttimeBack.Text);
+            Properties.Settings.Default.Save();
+        }
+
+        private void reestartWindow_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.Application.Restart();
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        private void closeWindow_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnCerrarConfiguracion_Click(object sender, RoutedEventArgs e)
+        {
+            tabGENERAL.SelectedIndex = 0;
+            loggin.IsOpen = false;
+            txtuserBoxLogg.Clear();
+            txtpassBoxLogg.Clear();
+        }
+
+        private void openLogg_Click(object sender, RoutedEventArgs e)
+        {
+            loggin.IsOpen = true;
+        }
+
+        private void ingresarLogg_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtuserBoxLogg.Text == "root" && txtpassBoxLogg.Password == "root")
+            {
+                tabGENERAL.SelectedIndex = 6;
+            }
+        }
+
+        private void cancelarLogg_Click(object sender, RoutedEventArgs e)
+        {
+            loggin.IsOpen = false;
+            txtuserBoxLogg.Clear();
+            txtpassBoxLogg.Clear();
+        }
 
 
         #endregion
@@ -516,6 +617,7 @@ namespace BODYTECH.UI
             arduino.Dispose();
             arduino.spArduino.Close();
         }
-        
+
+       
     }
 }

@@ -10,7 +10,7 @@ namespace BODYTECH.BL.BC
     public class HistorialActividadBC
     {
         private static BodytechEntities context = new BodytechEntities();
-        
+
         public HISTORIAL_ACTIVIDAD getHistorialCliente(Int32 clienteid)
         {
             HISTORIAL_ACTIVIDAD historial = new HISTORIAL_ACTIVIDAD();

@@ -83,7 +83,7 @@
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
-                                <Button x:Name="openLogg" Grid.Column="1" Margin="0,0,0,100"  Opacity="0"/>
+                                <Button x:Name="openLogg" Grid.Column="1" Margin="0,0,0,100"  Opacity="0" Click="openLogg_Click"/>
                             </Grid>
                         </Grid>
 
@@ -117,10 +117,10 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Viewbox Grid.Column="0" Margin="30,15,10,15">
-                                        <Button x:Name="ingresarLogg" Style="{StaticResource AccentedSquareButtonStyle}" Content="Ingresar" FontSize="23" Width="150"/>
+                                        <Button x:Name="ingresarLogg" Style="{StaticResource AccentedSquareButtonStyle}" Content="Ingresar" FontSize="23" Width="150" Click="ingresarLogg_Click"/>
                                     </Viewbox>
                                     <Viewbox Grid.Column="1" Margin="10,15,30,15">
-                                        <Button x:Name="cancelarLogg" Style="{StaticResource AccentedSquareButtonStyle}" Content="Cancelar" FontSize="23" Width="150"/>
+                                        <Button x:Name="cancelarLogg" Style="{StaticResource AccentedSquareButtonStyle}" Content="Cancelar" FontSize="23" Width="150" Click="cancelarLogg_Click"/>
                                     </Viewbox>
                                 </Grid>
                             </Grid>
@@ -433,12 +433,12 @@
                                 <ColumnDefinition Width="5*"/>
                                 <ColumnDefinition Width="5*"/>
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="btnCerrarConfiguracion" Grid.Column="1" Margin="10,15" Style="{DynamicResource MetroCircleButtonStyle}" Padding="-1">
+                            <Button x:Name="btnCerrarConfiguracion" Grid.Column="1" Margin="10,15" Style="{DynamicResource MetroCircleButtonStyle}" Padding="-1" Click="btnCerrarConfiguracion_Click">
                                 <Image Source="assets/img/Previous.png" Stretch="Fill" Opacity="0.8" />
                             </Button>
                             <TextBlock Text="Configuración" Grid.Column="2" TextAlignment="Left" FontFamily="Segoe UI Light" FontSize="80" Margin="0,0,0,0" Foreground="#ff9900"/>
-                            <Button x:Name="reestartWindow" Grid.Column="3" Margin="10" Content="REINICIAR" FontSize="50"/>
-                            <Button x:Name="closeWindow" Grid.Column="4" Margin="10" Content="CERRAR" FontSize="50" />
+                            <Button x:Name="reestartWindow" Grid.Column="3" Margin="10" Content="REINICIAR" FontSize="50" Click="reestartWindow_Click"/>
+                            <Button x:Name="closeWindow" Grid.Column="4" Margin="10" Content="CERRAR" FontSize="50" Click="closeWindow_Click"/>
 
                         </Grid>
 
@@ -470,7 +470,7 @@
 
                                 <TextBlock Grid.Row="0" Grid.Column="1" Text="Tipo de Tableta" TextAlignment="Left" FontFamily="Segoe UI Light" FontSize="30" Margin="80,30,150,120" Foreground="#ff9900"/>
                                 <ComboBox x:Name="cbxTipoTableta" Grid.Row="0" Grid.Column="1" FontFamily="Segoe UI Light" FontSize="30" Margin="80,80,150,70">
-                                    <ComboBoxItem x:Name="cbxItemTPSalida" Content="Salida"/>
+                                    <ComboBoxItem x:Name="cbxItemTPSalida" Content="Salida" />
                                     <ComboBoxItem x:Name="cbxItemTPEntrada" Content="Entrada"/>
                                 </ComboBox>
 
@@ -500,7 +500,7 @@
                                 <TextBlock Text="TRA" TextAlignment="Left" FontFamily="Segoe UI Light" FontSize="30" Margin="746,20,110,130" Foreground="#ff9900"/>
                                 <TextBlock Text="TDB" TextAlignment="Left" FontFamily="Segoe UI Light" FontSize="30" Margin="846,20,10,130" Foreground="#ff9900"/>
                                 <TextBox x:Name="txtconnectionString" Margin="80,70,211,10" FontSize="30" TextWrapping="Wrap" Controls:TextBoxHelper.Watermark="Ejemplo: Data Source=192.168.205.80\sqlexpress ..."/>
-                                <Button x:Name="btnGuardarConfiguracion" Grid.Column="1" Margin="10,70,10,10" FontSize="30" FontFamily="Segoe UI Light" Content="Guardar"/>
+                                <Button x:Name="btnGuardarConfiguracion" Grid.Column="1" Margin="10,70,10,10" FontSize="30" FontFamily="Segoe UI Light" Content="Guardar" Click="btnGuardarConfiguracion_Click"/>
                                 <TextBox x:Name="txttimeBack" Margin="746,70,110,70" FontFamily="Segoe UI Light" FontSize="30" TextAlignment="Center"/>
                                 <TextBox x:Name="txttimeRestart" Margin="846,70,10,70" FontFamily="Segoe UI Light" FontSize="30" TextAlignment="Center"/>
                             </Grid>
